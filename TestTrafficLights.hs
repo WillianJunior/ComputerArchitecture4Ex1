@@ -71,5 +71,5 @@ run_trafficLights input = runAllInput input output
 -- the first test runs for 9 cycles: 8 for the full cycle and 
 -- 1 to return to initial state
 trafficLights_input1 =
-  [[1],[0],[0],[0],[0],[0],[0],[0],[0],[0]]
+  [[1],[0],[0],[0],[0],[1],[0],[0],[0],[0]]
 

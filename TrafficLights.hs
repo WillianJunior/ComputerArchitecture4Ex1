@@ -27,7 +27,8 @@ counter1 :: Clocked a => a -> a -> (a,a)
 counter1 cin reset = (out,cout)
   where
     (cout,sum) = halfAdd out cin
-    out = dff sum -- how to to the reset?
+    out = dff inp
+    inp = and2 (inv reset) sum -- how to to the reset?
 
 ------------------------------------------------------------------------
 -- 3-bit counter block
@@ -47,9 +48,6 @@ countern 0 _ _ = []
 countern n cin reset = (countern (n-1) cout reset) ++ [x]
   where
     (x,cout) = counter1 cin reset
-
-temp :: [a] -> (a,a,a)
-temp (x:(y:(z:xs))) = (x,y,z)
 
 ------------------------------------------------------------------------
 -- n-bit mux block generator
