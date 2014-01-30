@@ -18,7 +18,8 @@ trafficLights1 reset = (g,a,r)
     g = muxn 4 counter [one,  one,  one,  zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero]
     a = muxn 4 counter [zero, zero, zero, one,  zero, zero, zero, zero, one,  zero, zero, zero, zero, zero, zero, zero]
     r = muxn 4 counter [zero, zero, zero, zero, one,  one,  one,  one,  zero, zero, zero, zero, zero, zero, zero, zero]
-    rst = or2 reset (andw counter)
+    rst = or2 reset (andw ([x3]++[inv x2]++[inv x1]++[inv x0]))
+    (x3:(x2:(x1:(x0:nothing)))) = counter
 
 ------------------------------------------------------------------------
 -- 1-bit counter block
@@ -29,16 +30,6 @@ counter1 cin reset = (out,cout)
     (cout,sum) = halfAdd out cin
     out = dff inp
     inp = and2 (inv reset) sum -- how to to the reset?
-
-------------------------------------------------------------------------
--- 3-bit counter block
-
-counter3 :: Clocked a => a -> (a,a,a)
-counter3 reset = (x0,x1,x2)
-  where
-    (x0,c0) = counter1 one reset
-    (x1,c1) = counter1 c0 reset
-    (x2,c2) = counter1 c1 reset
 
 ------------------------------------------------------------------------
 -- n-bit counter block generator
