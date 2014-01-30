@@ -1,0 +1,83 @@
+course: CA4
+exercise: 1
+date: 2014-02-30
+surname: de Oliveira Barreiros Junior
+forename: Willian
+email: guns945@gmail.com
+
+Status: Both circuits were implemented. Compilation with no errors.
+Both circuits appear to be working correctly according to the 
+specification plus some minor decisions taken.
+
+Circuit 1 Overview:
+The first circuit was implemented using a counter to hold the
+state of the machine. This was thought for three main reasons. 
+First, the number of flip-flops used would be lesser than using 
+the 'one flip-flop per state' strategy covered on lectures. 
+
+Second, this was thought to be simpler to implement and extend 
+(given that a second circuit would be implemented), and also the 
+code would be more legible (divided in three simple parts: the 
+counter, the multiplexers to generate the output and the reset 
+logic). Also, if the pattern was to be changed a simple change on 
+the multiplexers input could do it (unless it also changes the 
+period, which would also require changes on the reset circuit). 
+
+Third, the circuit was implemented as a learning exercise and also 
+a preparation to the next exercise, the CPU, which will require 
+some knowledge on the use and creation of building blocks. 
+
+The reset was implemented to work on any circumstance, returning the 
+circuit to the first state of the cycle (first green light cycle).
+
+Circuit 2 Overview:
+The second circuit was a copy of the first one with three major 
+differences. First, the circuit needed to wait indefinitely on
+the starting state until there was a walk request, on which it
+is supposed to run through a predefined cycle and then return to
+the initial state. Thereby, the first change was to use a counter
+with an enable input, which would be triggered by the walk request.
+
+Second, the counter need a continuous high input on enable to keep 
+counting and, that the signal should drop to low after the counter
+returns to its initial state. This was implemented by adding a 
+register that holds the walk request signal for six cycles (from 
+the initial state back to the initial state again) and then clear 
+itself. This introduced a one cycle lag between the moment when the
+walk request is sent and when the counter receives the enable, 
+taking one more cycle before it begins the full six cycles circuit.
+The two cycles delay is negligible since the circuit application 
+don't require such quick response time. 
+
+The third and final change was the walk request counter. Besides 
+the use of the counter with enable building block already 
+implemented a combinational logic was needed to make sure that 
+the counter would only increment one time for each full six cycle 
+circuit. 
+
+The reset was implemented to reset both the state counter
+and the walk request counter. This was decided based on the 
+specification that stated "In the real world, the reset button 
+and the walkCount display would be hidden inside the box containing 
+the electronics, [...]". Given that, the same person that would 
+reset the circuit (for whatever the reason) would also have access 
+to the counter and could easily take note on the counter before 
+resetting the circuit.
+
+Testing:
+The tests are already explained before the test data. Below is a 
+exact copy from the text by the test data.
+
+The first test runs for 11 cycles: 8 for the full cycle and 3 to 
+test the reset. After the reset, another 8 cycles to ensure the 
+correctness of the circuit after a reset.
+
+The second test, first resets the circuit and then wait for two cycles 
+before the first walk request. The second walk request happens 3
+cycles after the end of the first complete circuit from the first
+walk request. It is also tested what happens if random walk request
+happen when it is already running the full circuit. Finally, 
+the reset is tested in the middle of a full circuit.
+
+All tests ran correctly wielding the right output and thus proving
+the circuits correctness.

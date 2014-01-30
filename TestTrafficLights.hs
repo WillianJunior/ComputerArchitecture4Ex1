@@ -95,12 +95,13 @@ run_controller2 input = runAllInput input output
 -- Test data for all trafficLights versions
 
 -- The first test runs for 11 cycles: 8 for the full cycle and 
--- 3 to test the reset. After the reset, another 8 cycles.
+-- 3 to test the reset. After the reset, another 8 cycles to 
+-- ensure the correctness of the circuit after a reset.
 trafficLights_input1 =
   [[1],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[1],[0],[0],[0],
    [0],[0],[0],[0],[0]] 
 
--- This test first resets the circuit and then wait for two cycles 
+-- The second test, first resets the circuit and then wait for two cycles 
 -- before the first walkRequest. The second walkRequest happens 3
 -- cycles after the end of the first complete circuit from the first
 -- walkRequest. It is also tested what happens if random walkRequests
